@@ -1,0 +1,38 @@
+version: "0.0.1"
+
+services:
+  nginx-load-balancer:
+    container_name: nginx-load-balancer
+    image: nginx-load-balancer
+    build:
+      context: ./images/nginx
+      dockerfile: dockerfile.nginx
+    ports:
+      - 80:80
+    volumes:
+      - ./nginx/log-nginx-load-balancer:/var/log/nginx/
+      - ./nginx/conf/nginx-load-balancer.conf:/etc/nginx/conf.d/default.conf
+    networks:
+      - networks-host
+      
+  api-nestjs-1:
+    container_name: api-nestjs-1
+    image: api-nestjs-1
+    build:
+      context: ./images/nest-js
+      dockerfile: dockerfile.nestjs
+    networks:
+      - networks-host
+  
+  api-nestjs-2:
+    container_name: api-nestjs-2
+    image: api-nestjs-2
+    build:
+      context: ./images/nest-js
+      dockerfile: dockerfile.nestjs
+    networks:
+      - networks-host
+
+networks:
+  networks-host:
+    driver: bridge
