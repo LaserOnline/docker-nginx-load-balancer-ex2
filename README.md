@@ -7,9 +7,9 @@
 Nginx.conf
 
 ```bash
-  upstream nestjs {
-    server api-nestjs-1:3000 weight=6;
-    server api-nestjs-2:3000 weight=4;
+upstream nestjs {
+    server api-nestjs-1:3000 fail_timeout=30s max_fails=2 weight=8;
+    server api-nestjs-2:3000 fail_timeout=30s max_fails=1 weight=2;
 }
 
 server {
